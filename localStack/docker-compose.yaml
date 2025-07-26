@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+  localstack:
+    image: localstack/localstack
+    container_name: localstack
+    ports:
+      - "4566:4566" # Main LocalStack port
+      - "4571:4571" # Optional Lambda port
+    environment:
+      - SERVICES=s3,lambda,dynamodb # Specify AWS services to start
+      - DEBUG=1 # Enable debug mode
+      - DATA_DIR=/tmp/localstack/data # Persistent data
+    volumes:
+      - "./init-scripts:/etc/localstack/init/ready.d" # Mount startup scripts
