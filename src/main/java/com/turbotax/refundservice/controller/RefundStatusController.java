@@ -20,7 +20,7 @@ public class RefundStatusController {
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<RefundStatusResponse> getRefundStatus(@PathVariable String userId) {
-        RefundStatusResponse response = refundService.getRefundStatus("1234");
+        RefundStatusResponse response = refundService.getRefundStatus(userId);
         return ResponseEntity.ok(response);
     }
 }
