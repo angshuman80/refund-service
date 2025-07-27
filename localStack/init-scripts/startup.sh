@@ -41,4 +41,16 @@ awslocal dynamodb put-item \
          \"fillingDate\": {\"S\": \"2025-03-05\"}
     }"
 
+awslocal dynamodb put-item \
+    --table-name TaxReturn \
+    --item "{
+        \"userId\": {\"S\": \"user125\"},
+        \"year\": {\"N\": \"2024\"},
+        \"ssn\": {\"S\": \"123-45-6800\"},
+        \"last4\": {\"N\": \"6800\"},
+        \"refundAmount\": {\"N\": \"1500.75\"},
+        \"refundStatus\": {\"S\": \"NA\"},
+         \"fillingDate\": {\"S\": \"2025-03-05\"}
+    }"
+
 echo "Dummy data inserted into 'TaxReturn' table successfully."

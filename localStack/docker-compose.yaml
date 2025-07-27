@@ -12,3 +12,8 @@ services:
       - DATA_DIR=/tmp/localstack/data # Persistent data
     volumes:
       - "./init-scripts:/etc/localstack/init/ready.d" # Mount startup scripts
+    networks:
+      - localstack-network # Use a custom network for isolation
+networks:
+  localstack-network:
+    driver: bridge
