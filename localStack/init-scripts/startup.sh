@@ -49,7 +49,7 @@ awslocal dynamodb put-item \
         \"ssn\": {\"S\": \"123-45-6800\"},
         \"last4\": {\"N\": \"6800\"},
         \"refundAmount\": {\"N\": \"1500.75\"},
-        \"refundStatus\": {\"S\": \"NA\"},
+        \"refundStatus\": {\"S\": \"PENDING\"},
          \"fillingDate\": {\"S\": \"2025-03-05\"}
     }"
 
