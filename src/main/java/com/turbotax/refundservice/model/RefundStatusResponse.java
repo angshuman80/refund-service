@@ -14,10 +14,10 @@ public class RefundStatusResponse {
     private Integer taxReturnYear;
     private String refundStatus;
     private Double returnAmount;
-    private String fillingType;
-    private String disputeReason;
-    private String taxRefundDate;
-    private String expectedDepositDate;
+    private String fillingType="e-file";
+    private String disputeReason="";
+    private String taxRefundDate="";
+    private String expectedDepositDate="";
 
     public Integer getLast4ssn() {
         return last4ssn;

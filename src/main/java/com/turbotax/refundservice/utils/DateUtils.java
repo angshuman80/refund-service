@@ -16,6 +16,16 @@ public class DateUtils {
         return formattedDate;
     }
 
+    public static int getPreviousYear() {
+            // Get the current date
+            LocalDate currentDate = LocalDate.now();
+
+            // Subtract one year to get the previous year
+            return currentDate.getYear() - 1;
+    }
+
+
+
     public static String addDaysToDate(String date, int daysToAdd) {
         // Define the date formatter
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

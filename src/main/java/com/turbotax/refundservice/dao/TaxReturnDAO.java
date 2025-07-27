@@ -49,6 +49,8 @@ public class TaxReturnDAO {
         taxReturn.setLast4(Integer.parseInt(item.get("last4").n()));
         taxReturn.setRefundAmount(Double.parseDouble(item.get("refundAmount").n()));
         taxReturn.setRefundStatus(item.get("refundStatus").s());
+        taxReturn.setFillingDate(item.get("fillingDate").s());
+        taxReturn.setRefundDate(item.get("refundDate")!=null?item.get("refundDate").s():null);
 
         return taxReturn;
     }

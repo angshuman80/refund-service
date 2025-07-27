@@ -26,7 +26,7 @@ awslocal dynamodb put-item \
         \"last4\": {\"N\": \"6789\"},
         \"refundAmount\": {\"N\": \"1500.75\"},
         \"refundStatus\": {\"S\": \"PENDING\"},
-         \"fillingDate\": {\"S\": \"2024-03-05\"}
+         \"fillingDate\": {\"S\": \"2025-03-05\"}
     }"
 
 awslocal dynamodb put-item \
@@ -38,7 +38,7 @@ awslocal dynamodb put-item \
         \"last4\": {\"N\": \"6799\"},
         \"refundAmount\": {\"N\": \"1500.75\"},
         \"refundStatus\": {\"S\": \"NA\"},
-         \"fillingDate\": {\"S\": \"2024-03-05\"}
+         \"fillingDate\": {\"S\": \"2025-03-05\"}
     }"
 
 echo "Dummy data inserted into 'TaxReturn' table successfully."

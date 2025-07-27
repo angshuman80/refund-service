@@ -1,11 +1,14 @@
 package com.turbotax.refundservice.service;
 
+import com.turbotax.refundservice.controller.RefundStatusController;
 import com.turbotax.refundservice.dao.TaxReturnDAO;
 import com.turbotax.refundservice.model.RefundStatus;
 import com.turbotax.refundservice.model.RefundStatusResponse;
 import com.turbotax.refundservice.model.Status;
 import com.turbotax.refundservice.model.table.TaxReturn;
 import com.turbotax.refundservice.utils.DateUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.sql.Ref;
@@ -16,6 +19,8 @@ public class RefundService {
     private final IrsService irsClient;
     private final TaxReturnDAO taxReturnDAO;
     private final RefundStatusPredictionService aiPredictionClient;
+    private static final Logger logger = LogManager.getLogger(RefundService.class);
+
 
 
     public RefundService(IrsService irsClient,
@@ -27,12 +32,12 @@ public class RefundService {
 
     public RefundStatusResponse getRefundStatus(String userId) {
 
-        // get current year
-        int currentYear = LocalDate.now().getYear();
         // Fetch tax return for the user
-        TaxReturn taxReturn = taxReturnDAO.getTaxReturn(userId, currentYear);
+        int taxReturnYear = DateUtils.getPreviousYear();
+        TaxReturn taxReturn = taxReturnDAO.getTaxReturn(userId, taxReturnYear);
 
         if (taxReturn != null) {
+            logger.info("Tax return found for user: {}, year: {}", taxReturn.getUserId(), taxReturn.getYear());
             // add switch case for refund status
            return getRefundStatus(taxReturn);
         }
@@ -54,6 +59,7 @@ public class RefundService {
                     response.setExpectedDepositDate(DateUtils.dateyyyymmdd(5));
                     return response;
                 case PENDING:
+                    logger.info("Processing pending refund status for user: {}, year: {}", taxReturn.getUserId(), taxReturn.getYear());
                     return processPendingStatus(taxReturn,response);
                 default:
                     // Default case for pending or unknown status
@@ -77,13 +83,16 @@ public class RefundService {
             taxReturn.setRefundDate(refundStatus.getExpectedDate());
         } else {
             // Predict refund date using AI model
-            if(taxReturn.getRefundDate() == null) {
+            logger.info("Refund status is pending for user: {}, year: {} tax refund date {}", taxReturn.getUserId(),
+                    taxReturn.getYear() , taxReturn.getRefundDate());
+            String refundDate= taxReturn.getRefundDate();
+            if(refundDate == null) {
                 Integer predictedDays = aiPredictionClient.predictRefundDays();
-                String refundDate = DateUtils.addDaysToDate(taxReturn.getFillingDate(), predictedDays);
+                logger.info("Predicted refund days: {} fillling date {} ", predictedDays, taxReturn.getFillingDate());
+                refundDate = DateUtils.addDaysToDate(taxReturn.getFillingDate(), predictedDays);
                 taxReturn.setRefundDate(refundDate);
-                response.setTaxRefundDate(refundDate);
             }
-
+            response.setTaxRefundDate(refundDate);
         }
         taxReturnDAO.updateTaxReturn(taxReturn);
         return response;
