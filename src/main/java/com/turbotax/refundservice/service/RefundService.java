@@ -2,6 +2,7 @@ package com.turbotax.refundservice.service;
 
 import com.turbotax.refundservice.controller.RefundStatusController;
 import com.turbotax.refundservice.dao.TaxReturnDAO;
+import com.turbotax.refundservice.exception.ResourceNotFoundException;
 import com.turbotax.refundservice.model.RefundStatus;
 import com.turbotax.refundservice.model.RefundStatusResponse;
 import com.turbotax.refundservice.model.Status;
@@ -40,9 +41,10 @@ public class RefundService {
             logger.info("Tax return found for user: {}, year: {}", taxReturn.getUserId(), taxReturn.getYear());
             // add switch case for refund status
            return getRefundStatus(taxReturn);
+        }else{
+            throw new ResourceNotFoundException(
+                    String.format("Tax return not found for user: %s, year: %d", userId, taxReturnYear));
         }
-        return null;
-
     }
 
     public RefundStatusResponse getRefundStatus(TaxReturn taxReturn) {

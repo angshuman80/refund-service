@@ -26,6 +26,10 @@ public class RefundStatusController {
     @GetMapping("/user/{userId}")
     public ResponseEntity<RefundStatusResponse> getRefundStatus(@PathVariable String userId) {
         logger.info("Received request to get refund status for user: {}", userId);
+        if (userId == null || userId.isEmpty()) {
+            logger.error("Invalid userId: {}", userId);
+            throw new IllegalArgumentException("User ID cannot be null or empty");
+        }
         RefundStatusResponse response = refundService.getRefundStatus(userId);
         return ResponseEntity.ok(response);
     }
