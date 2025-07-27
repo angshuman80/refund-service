@@ -72,7 +72,7 @@ mvn spring-boot:run
 ### 1. Get Refund Status
 **Endpoint**: `GET /v1/tax/refund/status/user/{userId}`  
 **Description**: Fetches the refund status for a given user.
-**Example** : http://localhost:9080/v1/tax/refund/status/user/user123
+**Example**: `http://localhost:9080/v1/tax/refund/status/user/user123`
 **Response**:  
 - **200 OK**: Refund status details.
 - **404 Not Found**: If the tax return is not found.
